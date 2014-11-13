@@ -12,9 +12,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,35 +24,39 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 public class MessageFragment extends Fragment {
-	
+
 	private ListView listView;
 	private ProgressDialog progressDialog;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_message, container, false);
-		
+		View rootView = inflater.inflate(R.layout.fragment_message, container,
+				false);
+
 		listView = (ListView) rootView.findViewById(R.id.listView1);
 
 		progressDialog = new ProgressDialog(getActivity());
 		progressDialog.setTitle("Loading..");
 		progressDialog.show();
-		
-		String text = getArguments().getString("text");
-		boolean isChecked = getArguments().getBoolean("checkBox", false);
 
-		Log.d("debug", "extra:" + text + "," + isChecked);
+		if (getArguments() != null) {
+			String text = getArguments().getString("text");
+			boolean isChecked = getArguments().getBoolean("checkBox", false);
+			saveToParse(text, isChecked);
+			Log.d("debug", "extra:" + text + "," + isChecked);
+		} else {
+			loadMessageFromParse();
+		}
 
-//		listView.setAdapter(adapter);
+		// listView.setAdapter(adapter);
 
-//		loadMessageFromParse();
-		saveToParse(text, isChecked);
-		
-		
+		// loadMessageFromParse();
+
+
 		return rootView;
 	}
-	
+
 	private void loadMessageFromParse() {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Message");
 		query.findInBackground(new FindCallback<ParseObject>() {
@@ -60,8 +64,8 @@ public class MessageFragment extends Fragment {
 			@Override
 			public void done(List<ParseObject> objects, ParseException e) {
 				for (ParseObject object : objects) {
-//					Log.d("debug", object.getString("foo"));
-//					Log.d("debug", object.getString("abcd"));
+					// Log.d("debug", object.getString("foo"));
+					// Log.d("debug", object.getString("abcd"));
 				}
 				setListView(objects);
 				progressDialog.dismiss();
@@ -74,7 +78,7 @@ public class MessageFragment extends Fragment {
 		message.put("text", text);
 		message.put("checked", checked);
 		message.saveInBackground(new SaveCallback() {
-			
+
 			@Override
 			public void done(ParseException e) {
 				// TODO Auto-generated method stub
@@ -96,7 +100,7 @@ public class MessageFragment extends Fragment {
 		int[] to = new int[] { android.R.id.text1, android.R.id.text2 };
 		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data,
 				android.R.layout.simple_list_item_2, from, to);
-		
+
 		listView.setAdapter(adapter);
 	}
 }

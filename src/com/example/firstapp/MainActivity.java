@@ -1,33 +1,16 @@
 package com.example.firstapp;
 
-import com.example.firstapp.fragment.InputFragment;
-import com.parse.Parse;
-
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-public class MainActivity extends Activity {
+import com.parse.Parse;
 
+public class MainActivity extends FragmentActivity {
 
+	private ViewPager viewPager1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +19,13 @@ public class MainActivity extends Activity {
 
 	    Parse.initialize(this, "pTm5TEfLsTKhtn0mxEly1oIpa5lZgDczNmum8PY3", "9W4L6TXeaSHXuMZnHqwYKiAW987ieCPsRPPlidxl");
 	     
-	    InputFragment inputFragment = new InputFragment();
-	    FragmentTransaction ft = getFragmentManager().beginTransaction();
-	    ft.add(R.id.container, inputFragment);
-	    ft.commit();
+	    viewPager1 = (ViewPager) findViewById(R.id.viewPager1);
+	    viewPager1.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager()));
+	    
+//	    InputFragment inputFragment = new InputFragment();
+//	    FragmentTransaction ft = getFragmentManager().beginTransaction();
+//	    ft.add(R.id.container, inputFragment);
+//	    ft.commit();
 
 
 	}
