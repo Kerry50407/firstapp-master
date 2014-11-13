@@ -4,6 +4,7 @@ import com.example.firstapp.MessageActivity;
 import com.example.firstapp.R;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -109,11 +110,17 @@ public class InputFragment extends Fragment{
 		editor.putString("text", "");
 		editor.commit();
 
-		Intent intent = new Intent();
-		intent.setClass(getActivity(), MessageActivity.class);
-		intent.putExtra("text", text);
-		intent.putExtra("checkBox", checkBox.isChecked());
-		startActivity(intent);
+		Bundle arg = new Bundle();
+		arg.putString("text", text);
+		arg.putBoolean("checkBox", checkBox.isChecked());
+		
+		MessageFragment messageFragment = new MessageFragment();
+		messageFragment.setArguments(arg);
+		
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		ft.add(R.id.container, messageFragment);
+		ft.commit();
+		
 	}
 
 	public void clickButton(View view) {
