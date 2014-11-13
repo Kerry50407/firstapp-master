@@ -2,6 +2,7 @@ package com.example.firstapp;
 
 import com.example.firstapp.fragment.InputFragment;
 import com.example.firstapp.fragment.MessageFragment;
+import com.example.firstapp.fragment.PhotoFragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +22,8 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 			return new InputFragment();
 		case 1:
 			return new MessageFragment();
+		case 2:
+			return new PhotoFragment();
 		}
 		return null;
 	}
@@ -28,7 +31,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 2;
+		return 3;
 	}
 
 }
